@@ -1,143 +1,19 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import AnimationVideo from "../AnimationVideo";
 import Image from "next/image";
 
 import CasingLoading from "./CasingLoading";
-
-const FPS = 60;
-const START_FRAME = 15;
-const END_FRAME = 193;
-const FRAME_FOLDER = "/images/loading_Screen";
-const FIRST_FRAME_PATH = getFramePath(START_FRAME);
 
 type LoadingProps = {
     progress: number;
     isComplete: boolean;
 };
 
-function getFramePath(frameIndex: number) {
-    const frameNumber = String(frameIndex).padStart(6, "0");
-    return `${FRAME_FOLDER}/frame_${frameNumber}.jpg`;
-}
-
 export default function Loading({ progress, isComplete }: LoadingProps) {
     const progressTerbatas = Math.min(Math.max(progress, 0), 100);
     const progressBulat = Math.round(progressTerbatas);
     const skalaProgress = progressTerbatas / 100;
-    const animationContainerRef = useRef<HTMLDivElement>(null);
-    const canvasRef = useRef<HTMLCanvasElement>(null);
-
-    useEffect(() => {
-        const canvas = canvasRef.current;
-        const animationContainer = animationContainerRef.current;
-        const context = canvas?.getContext("2d");
-
-        if (!canvas || !context || !animationContainer) return;
-
-        const loadingCanvas = canvas;
-        const loadingContext = context;
-        const loadingAnimationContainer = animationContainer;
-
-        const imageCache = new Map<number, HTMLImageElement>();
-        let animationFrameId = 0;
-        let currentFrame = START_FRAME;
-        let lastFrameTime = performance.now();
-        let isDestroyed = false;
-        loadingContext.imageSmoothingEnabled = true;
-        loadingContext.imageSmoothingQuality = "high";
-
-        function resizeCanvas() {
-            const devicePixelRatio = Math.min(window.devicePixelRatio || 1, 2);
-            const { width, height } = loadingAnimationContainer.getBoundingClientRect();
-            loadingCanvas.width = Math.round(width * devicePixelRatio);
-            loadingCanvas.height = Math.round(height * devicePixelRatio);
-            loadingCanvas.style.width = `${width}px`;
-            loadingCanvas.style.height = `${height}px`;
-
-            const currentImage = imageCache.get(currentFrame);
-            if (currentImage) drawFrame(currentImage);
-        }
-
-        function drawFrame(image: HTMLImageElement) {
-            // Keep the complete 16:9 frame visible; never crop it to the viewport.
-            const scale = Math.min(loadingCanvas.width / image.width, loadingCanvas.height / image.height);
-            const width = image.width * scale;
-            const height = image.height * scale;
-            const x = (loadingCanvas.width - width) / 2;
-            const y = (loadingCanvas.height - height) / 2;
-
-            loadingContext.clearRect(0, 0, loadingCanvas.width, loadingCanvas.height);
-            loadingContext.drawImage(image, x, y, width, height);
-        }
-
-        function loadFrame(frameIndex: number) {
-            const cachedImage = imageCache.get(frameIndex);
-            if (cachedImage) return Promise.resolve(cachedImage);
-
-            return new Promise<HTMLImageElement | null>((resolve) => {
-                const image = new window.Image();
-                image.src = getFramePath(frameIndex);
-                image.onload = async () => {
-                    try {
-                        await image.decode();
-                    } catch {
-                        // The browser may have decoded the image during onload.
-                    }
-                    if (!isDestroyed) imageCache.set(frameIndex, image);
-                    resolve(image);
-                };
-                image.onerror = () => {
-                    resolve(null);
-                };
-            });
-        }
-
-        function render(time: number) {
-            if (isDestroyed) return;
-
-            const frameDuration = 1000 / FPS;
-            const elapsedTime = time - lastFrameTime;
-            if (elapsedTime >= frameDuration) {
-                const image = imageCache.get(currentFrame);
-                if (image) {
-                    drawFrame(image);
-                    currentFrame = currentFrame >= END_FRAME ? START_FRAME : currentFrame + 1;
-                }
-                lastFrameTime = time - (elapsedTime % frameDuration);
-            }
-
-            animationFrameId = requestAnimationFrame(render);
-        }
-
-        resizeCanvas();
-        void loadFrame(START_FRAME).then((image) => {
-            if (isDestroyed) return;
-            if (image) {
-                drawFrame(image);
-            }
-            lastFrameTime = performance.now();
-            animationFrameId = requestAnimationFrame(render);
-        });
-
-        async function preloadRemainingFrames() {
-            for (let frameIndex = START_FRAME + 1; frameIndex <= END_FRAME; frameIndex++) {
-                if (isDestroyed) return;
-                await loadFrame(frameIndex);
-            }
-        }
-        void preloadRemainingFrames();
-        const resizeObserver = new ResizeObserver(resizeCanvas);
-        resizeObserver.observe(loadingAnimationContainer);
-
-        return () => {
-            isDestroyed = true;
-            cancelAnimationFrame(animationFrameId);
-            resizeObserver.disconnect();
-            imageCache.clear();
-        };
-    }, []);
-
   return (
         <>
             <style>{`
@@ -188,11 +64,14 @@ export default function Loading({ progress, isComplete }: LoadingProps) {
 
                 {/* Area animasi tetap 16:9 seperti frame idle HeroCharacter. */}
                 <div
-                    ref={animationContainerRef}
                     className="absolute left-1/2 top-1/2 z-10 aspect-video w-[min(100vw,177.778vh)] -translate-x-1/2 -translate-y-1/2 overflow-hidden"
                 >
-                    <Image src={FIRST_FRAME_PATH} className="object-contain" alt="" fill priority sizes="100vw" />
-                    <canvas ref={canvasRef} className="absolute inset-0 h-full w-full" aria-hidden="true" />
+                    <AnimationVideo
+                        src="/videos/loading.mp4"
+                        poster="/videos/loading-poster.jpg"
+                        label="Animasi pembuka portofolio"
+                        className="absolute inset-0 h-full w-full object-contain"
+                    />
                 </div>
                 
                 {/* Logo dipindah ke sini (sebelum overlay hitam) agar ikut meredup/gelap */}
@@ -205,7 +84,7 @@ export default function Loading({ progress, isComplete }: LoadingProps) {
                     priority
                 />
 
-                {/* Overlay Lapis 2 (Menutupi gambar, canvas, DAN logo) */}
+                {/* Overlay Lapis 2 (Menutupi video DAN logo) */}
                 <div className="absolute inset-0 bg-slate-950/20 z-20" aria-hidden="true" />
                 
                 {/* Container Loading di bawah */}

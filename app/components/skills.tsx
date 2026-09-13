@@ -16,7 +16,7 @@ const LAYERS = [
   { file: "11_flower_branch_right.png", depth: 0.22 },
   { file: "12_character_shadow.png", depth: 0.25 },
   { file: "13_character_center.png", depth: 0.25 },
-  { file: "14_user_hand_foreground.png", depth: 0.25 },
+  // { file: "14_user_hand_foreground.png", depth: 0.25 },
   { file: "15_pink_petals.png", depth: 0.55 },
   { file: "16_white_petals.png", depth: 0.6 },
   { file: "17_floating_sparkles.png", depth: 0.45 },

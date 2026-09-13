@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { useRouter } from "next/navigation";
 
 type FeaturedProject = {
     title: string;
@@ -19,7 +18,6 @@ function scrollKeSection(id: "projects" | "about") {
 }
 
 export default function FeaturedRoute() {
-    const router = useRouter();
     const [projectAktif, setProjectAktif] = useState(0);
     const [terlihat, setTerlihat] = useState(false);
     const [kontenTerlihat, setKontenTerlihat] = useState(true);
@@ -46,7 +44,7 @@ export default function FeaturedRoute() {
 
     return (
 <section
-    className={`fixed top-1/2 right-[max(72px,calc(50%-88.8889vh+72px))] z-40 w-[min(350px,calc(50vw-80px))] min-w-[290px] bg-transparent pt-7 pr-[38px] pb-6 pl-2 text-white transition-all duration-700 ease-out max-[1100px]:right-[max(38px,calc(50%-88.8889vh+38px))] max-[1100px]:w-[300px] max-[1100px]:min-w-0 max-[1100px]:pr-[30px] [@media(orientation:landscape)_and_(max-height:500px)]:right-[max(18px,calc(50%-88.8889vh+18px))] [@media(orientation:landscape)_and_(max-height:500px)]:w-[250px] [@media(orientation:landscape)_and_(max-height:500px)]:origin-right [@media(orientation:landscape)_and_(max-height:500px)]:px-1 [@media(orientation:landscape)_and_(max-height:500px)]:py-3 ${terlihat ? "translate-y-[-46%] opacity-100 [@media(orientation:landscape)_and_(max-height:500px)]:translate-y-[-43%] [@media(orientation:landscape)_and_(max-height:500px)]:scale-[0.84]" : "translate-y-[calc(-46%+24px)] opacity-0 [@media(orientation:landscape)_and_(max-height:500px)]:translate-y-[calc(-43%+18px)] [@media(orientation:landscape)_and_(max-height:500px)]:scale-[0.84]"}`}
+    className={`featured-route fixed top-1/2 right-[max(72px,calc(50%-88.8889vh+72px))] z-40 w-[min(350px,calc(50vw-80px))] min-w-[290px] bg-transparent pt-7 pr-[38px] pb-6 pl-2 text-white transition-all duration-700 ease-out max-[1100px]:right-[max(38px,calc(50%-88.8889vh+38px))] max-[1100px]:w-[300px] max-[1100px]:min-w-0 max-[1100px]:pr-[30px] [@media(orientation:landscape)_and_(max-height:500px)]:right-[max(18px,calc(50%-88.8889vh+18px))] [@media(orientation:landscape)_and_(max-height:500px)]:w-[250px] [@media(orientation:landscape)_and_(max-height:500px)]:origin-right [@media(orientation:landscape)_and_(max-height:500px)]:px-1 [@media(orientation:landscape)_and_(max-height:500px)]:py-3 ${terlihat ? "translate-y-[-46%] opacity-100 [@media(orientation:landscape)_and_(max-height:500px)]:translate-y-[-43%] [@media(orientation:landscape)_and_(max-height:500px)]:scale-[0.84]" : "translate-y-[calc(-46%+24px)] opacity-0 [@media(orientation:landscape)_and_(max-height:500px)]:translate-y-[calc(-43%+18px)] [@media(orientation:landscape)_and_(max-height:500px)]:scale-[0.84]"}`}
     aria-labelledby="featured-route-title"
 >
     {/* Gradien Radial Tengah (Smooth & Bebas Kotak) */}
@@ -92,11 +90,11 @@ export default function FeaturedRoute() {
         </h2>
 
         <p className="mt-[23px] text-[15px] leading-[1.6] tracking-[0.2em] text-sky-200/75 [@media(orientation:landscape)_and_(max-height:500px)]:mt-[13px] [@media(orientation:landscape)_and_(max-height:500px)]:text-[6px]">{project.category}</p>
-        <p className="mt-[11px] max-w-[285px] font-serif text-[13px] leading-[1.65] text-slate-50/80 max-[1100px]:max-w-[245px] max-[1100px]:text-xs [@media(orientation:landscape)_and_(max-height:500px)]:mt-1.5 [@media(orientation:landscape)_and_(max-height:500px)]:text-[10px] [@media(orientation:landscape)_and_(max-height:500px)]:leading-[1.45]">{project.description}</p>
+        <p className="mt-[11px] max-w-[285px] font-serif text-[16px] leading-[1.65] text-slate-50/80 max-[1100px]:max-w-[245px] max-[1100px]:text-xs [@media(orientation:landscape)_and_(max-height:500px)]:mt-1.5 [@media(orientation:landscape)_and_(max-height:500px)]:text-[10px] [@media(orientation:landscape)_and_(max-height:500px)]:leading-[1.45]">{project.description}</p>
 
-        <div className="mt-[25px] flex flex-col items-start gap-[13px] [@media(orientation:landscape)_and_(max-height:500px)]:mt-3.5 [@media(orientation:landscape)_and_(max-height:500px)]:gap-2">
-            <RouteButton utama onClick={() => router.push("/portfolio")}>VIEW PROJECT</RouteButton>
-            <RouteButton onClick={() => scrollKeSection("about")}>DISCOVER PROFILE</RouteButton>
+        <div className="mt-[25px] flex flex-col items-start gap-[13px] [@media(orientation:landscape)_and_(max-height:500px)]:mt-3.5 [@media(orientation:landscape)_and_(max-height:500px)]:gap-2 text-[14px]">
+            <RouteButton utama href="/Arief_Hidayat_CV.pdf">VIEW RESUME</RouteButton>
+            {/* <RouteButton onClick={() => scrollKeSection("about")}>DISCOVER PROFILE</RouteButton> */}
         </div>
     </div>
 
@@ -120,13 +118,13 @@ export default function FeaturedRoute() {
     );
 }
 
-function RouteButton({ utama = false, onClick, children }: { utama?: boolean; onClick: () => void; children: React.ReactNode }) {
+function RouteButton({ utama = false, href, children }: { utama?: boolean; href: string; children: React.ReactNode }) {
     return (
-        <button type="button" onClick={onClick} className={`group flex cursor-pointer items-center gap-2.5 border-0 bg-transparent py-0.5 font-serif text-[9px] tracking-[0.2em] transition-all duration-200 hover:translate-x-1 hover:text-cyan-100 focus-visible:translate-x-1 focus-visible:text-cyan-100 focus-visible:outline-none [@media(orientation:landscape)_and_(max-height:500px)]:text-[7px] ${utama ? "text-slate-100/80" : "text-slate-200/50"}`}>
+        <a href={href} target="_blank" rel="noopener noreferrer" className={`group flex cursor-pointer items-center gap-2.5 border-0 bg-transparent py-0.5 font-serif text-[9px] tracking-[0.2em] transition-all duration-200 hover:translate-x-1 hover:text-cyan-100 focus-visible:translate-x-1 focus-visible:text-cyan-100 focus-visible:outline-none [@media(orientation:landscape)_and_(max-height:500px)]:text-[7px] ${utama ? "text-slate-100/80" : "text-slate-200/50"}`}>
             <span className={`h-[7px] w-[7px] shrink-0 rotate-45 border border-current transition-all duration-200 group-hover:bg-cyan-100/80 group-hover:shadow-[0_0_11px_rgba(34,211,238,0.62)] ${utama ? "bg-sky-100/75 shadow-[0_0_8px_rgba(103,232,249,0.55)]" : ""}`} aria-hidden="true" />
             <span>{children}</span>
             {utama && <span className="ml-[3px] h-px w-12 origin-left bg-linear-to-r from-sky-200/60 to-transparent transition-all duration-200 group-hover:scale-x-110 group-hover:brightness-150" aria-hidden="true" />}
-        </button>
+        </a>
     );
 }
 

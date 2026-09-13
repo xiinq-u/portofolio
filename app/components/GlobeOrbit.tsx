@@ -91,11 +91,16 @@ export default function GlobeOrbit() {
     };
     const key = (event: KeyboardEvent) => { if (event.key === "Escape" && selected !== null) { event.preventDefault(); close(); } };
     const resize = () => { measure(); envelopes.forEach((_, i) => { if (i !== selected) place(i); }); };
+    // The iPhone layout can change the orb size after device detection.
+    const orbObserver = new ResizeObserver(resize);
+    const orbElement = document.querySelector(".story-orb");
+    if (orbElement) orbObserver.observe(orbElement);
     const motion = () => { reduced = media.matches; resize(); };
     const visibility = () => { if (document.hidden) timeline?.pause(); else timeline?.resume(); };
     gsap.ticker.add(tick);
     window.addEventListener("resize", resize); document.addEventListener("keydown", key); document.addEventListener("visibilitychange", visibility); media.addEventListener("change", motion);
     return () => {
+      orbObserver.disconnect();
       timeline?.kill(); gsap.killTweensOf([card, ...envelopes]); gsap.ticker.remove(tick);
       window.removeEventListener("resize", resize); document.removeEventListener("keydown", key); document.removeEventListener("visibilitychange", visibility); media.removeEventListener("change", motion);
       actions.current = { open: () => {}, close: () => {} };

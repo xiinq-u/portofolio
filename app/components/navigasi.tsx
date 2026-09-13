@@ -56,10 +56,40 @@ export default function Navigasi({ href = "/" }: NavigasiProps) {
                 .back-btn:hover svg {
                     transform: translateX(-4px);
                 }
+
+                @media (hover: none) and (pointer: coarse) and (max-width: 1024px),
+                       (hover: none) and (pointer: coarse) and (max-height: 600px) {
+                    .back-btn {
+                        width: 36px;
+                        height: 36px;
+                        padding: 0;
+                        border-width: 1px;
+                        border-radius: 10px;
+                        box-shadow: 0 3px 12px rgba(0, 0, 0, 0.5);
+                    }
+
+                    .back-btn svg {
+                        width: 18px;
+                        height: 18px;
+                    }
+
+                    /* Keep the touch target comfortable around the smaller visual. */
+                    .back-btn::after {
+                        content: "";
+                        position: absolute;
+                        inset: -4px;
+                    }
+
+                    .back-btn:hover,
+                    .back-btn:hover svg {
+                        transform: none;
+                    }
+                }
             `}</style>
 
             <div className="nav-container">
                 <button 
+                    type="button"
                     onClick={() => router.push(href)}
                     className="back-btn"
                     aria-label="Kembali"

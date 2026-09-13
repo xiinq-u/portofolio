@@ -8,7 +8,7 @@ import Hero from "./components/hero_page/hero";
 
 export default function Home() {
     return (
-        <main className="relative min-h-screen bg-slate-950">
+        <main className="home-page relative min-h-screen bg-slate-950">
             <IntroLoading />
             <Hero />
             <Navbar />

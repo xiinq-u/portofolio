@@ -9,18 +9,13 @@ type HeroProps = {
 	onLoadingComplete?: () => void;
 };
 
-// App Router usage example. These callbacks keep the existing portfolio loading
-// overlay synchronized with HeroCharacter's complete 1,800-frame preload.
+// Loading callbacks report when the first video frame is available.
 export default function Hero({ onLoadingChange, onLoadingProgress, onLoadingComplete }: HeroProps) {
 	return (
-		<section className="relative min-h-screen overflow-hidden bg-slate-950">
+		<section className="hero-scene relative min-h-screen overflow-hidden bg-slate-950">
 			<CasingUtama />
 			<HeroCharacter
 				className="absolute inset-0 z-10"
-				idleFPS={60}
-				specialFPS={60}
-				minIdleLoops={4}
-				maxIdleLoops={10}
 				onLoadingChange={onLoadingChange}
 				onLoadingProgress={onLoadingProgress}
 				onReady={onLoadingComplete}

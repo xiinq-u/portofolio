@@ -326,12 +326,12 @@
 /* ========================================================== */
 /* PENGATURAN POSISI LAYER & BUNGA                              */
 /* ========================================================== */
-.skills-art-layer[data-art="14"] {
+/* .skills-art-layer[data-art="14"] {
   top: 48px;
   bottom: -30%;
   left: -68px;
   height: 115%;
-}
+} */
 
 .skills-art-layer[data-art="15"],
 .skills-art-layer[data-art="16"] {
@@ -607,11 +607,11 @@
   .skills-scene .skills-art-layer {
     inset: -1.67% -0.56%;
   }
-  .skills-scene .skills-art-layer[data-art="14"] {
+  /* .skills-scene .skills-art-layer[data-art="14"] {
     top: 2.9%;
     left: -4.72%;
     right: -0.56%;
     bottom: auto;
     height: 132%;
-  }
+  } */
 }

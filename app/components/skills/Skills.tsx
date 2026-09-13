@@ -67,11 +67,12 @@ export default function Skills() {
           root.style.removeProperty("--skills-card-scale");
           return;
         }
-        // offsetHeight stays unscaled by CSS zoom: measure every complete card.
+        // Layout dimensions are unaffected by transform: use one scale for both axes.
         const height = Math.max(...panels.map(panel => panel.offsetHeight), 1);
         const columnWidth = Math.max(1, (layout.clientWidth - 24) / 3.3);
-        const availableHeight = Math.min(layout.clientHeight, root.clientHeight * 0.72, 300);
-        const scale = Math.max(0.1, Math.min(1, columnWidth / 220, availableHeight / height));
+        const availableHeight = Math.max(0, layout.clientHeight - 12);
+        const width = Math.max(...panels.map(panel => panel.offsetWidth), 1);
+        const scale = Math.max(0, Math.min(1, columnWidth / width, availableHeight / height));
         root.style.setProperty("--skills-card-scale", String(Math.floor(scale * 1000) / 1000));
       });
     };

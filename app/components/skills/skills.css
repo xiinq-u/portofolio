@@ -520,82 +520,45 @@
 }
 @media (hover: none) and (pointer: coarse) and (orientation: landscape) and (max-height: 600px) {
   .skills-content {
-    padding: 8px max(24px, env(safe-area-inset-right)) 6px
-      max(24px, env(safe-area-inset-left));
+    padding: 8px max(24px, env(safe-area-inset-right)) 8px max(24px, env(safe-area-inset-left));
     gap: 4px;
   }
-  .skills-heading {
-    margin: 0;
-    padding: 0 60px;
-  }
-  .skills-heading h1 {
-    margin: 0;
-    font-size: 24px;
-  }
+  .skills-heading { margin: 0; padding: 0 60px; }
+  .skills-heading h1 { margin: 0; font-size: 24px; }
   .skills-layout-split {
     height: 100%;
     min-height: 0;
     grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr) minmax(0, 1fr);
+    grid-template-rows: minmax(0, 1fr);
     gap: 12px;
   }
+  .skills-layout-split > * { grid-row: 1; }
+  /* Desktop-sized cards are scaled as a whole, never compressed by the grid. */
   .skills-panel {
-    width: 220px;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    width: 380px;
     max-width: none;
     max-height: none;
+    align-self: center;
     overflow: clip;
-    zoom: var(--skills-card-scale, 1);
-    padding: 10px;
-    border-width: 1px;
-    border-radius: 12px;
+    padding: 28px;
+    border-width: 2px;
+    border-radius: 22px;
+    transform: scale(var(--skills-card-scale, 0));
+    transform-origin: center;
   }
-  .skills-panel > .skills-eyebrow {
-    font-size: 8px;
-    margin-bottom: 3px;
-  }
-  .skills-panel h2 {
-    font-size: 12px;
-    margin-bottom: 6px;
-  }
-  .skills-item-heading {
-    flex-wrap: nowrap;
-  }
-  .skills-item-heading h3 {
-    width: auto;
-    font-size: 10px;
-  }
-  .skills-item-heading > span {
-    font-size: 15px;
-    flex-shrink: 0;
-  }
-  .skills-item-heading small {
-    font-size: 9px;
-  }
-  .skills-list {
-    gap: 6px;
-  }
-  .skills-item > p {
-    margin-top: 3px;
-    font-size: 10px;
-    line-height: 1.35;
-  }
-  .skills-item meter {
-    height: 5px;
-    margin: 3px 0;
-  }
-  .skills-item meter::-webkit-meter-bar {
-    height: 5px;
-  }
-  .skills-note {
-    margin-top: 8px;
-  }
-  .skills-caption {
-    margin: 0;
-    font-size: 10px;
-  }
-  .skills-back {
-    top: 8px;
-    left: max(12px, env(safe-area-inset-left));
-  }
+  .skills-panel > .skills-eyebrow { font-size: 13px; margin-bottom: 8px; }
+  .skills-panel h2 { font-size: 26px; margin-bottom: 22px; }
+  .skills-item-heading { flex-wrap: nowrap; gap: 8px; }
+  .skills-item-heading h3 { width: auto; font-size: 17px; }
+  .skills-item-heading > span { font-size: 34px; flex-shrink: 0; }
+  .skills-item-heading small { font-size: 12px; }
+  .skills-list { gap: 20px; }
+  .skills-item > p { margin-top: 4px; font-size: 12px; line-height: 1.4; }
+  .skills-item meter { height: 7px; margin: 6px 0; }
+  .skills-item meter::-webkit-meter-bar { height: 7px; }
+  .skills-back { top: 8px; left: max(12px, env(safe-area-inset-left)); }
 
   /* Scale the original 3:1 composition and its offsets together on phones. */
   .skills-scene {

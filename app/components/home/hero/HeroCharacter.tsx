@@ -1,6 +1,6 @@
 "use client";
 
-import AnimationVideo from "../AnimationVideo";
+import AnimationVideo from "../../shared/AnimationVideo";
 
 export interface HeroCharacterProps {
   className?: string;

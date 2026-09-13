@@ -1,6 +1,6 @@
 "use client";
 
-import AnimationVideo from "../AnimationVideo";
+import AnimationVideo from "../../shared/AnimationVideo";
 import Image from "next/image";
 
 import CasingLoading from "./CasingLoading";

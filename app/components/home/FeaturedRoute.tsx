@@ -93,7 +93,7 @@ export default function FeaturedRoute() {
         <p className="mt-[11px] max-w-[285px] font-serif text-[16px] leading-[1.65] text-slate-50/80 max-[1100px]:max-w-[245px] max-[1100px]:text-xs [@media(orientation:landscape)_and_(max-height:500px)]:mt-1.5 [@media(orientation:landscape)_and_(max-height:500px)]:text-[10px] [@media(orientation:landscape)_and_(max-height:500px)]:leading-[1.45]">{project.description}</p>
 
         <div className="mt-[25px] flex flex-col items-start gap-[13px] [@media(orientation:landscape)_and_(max-height:500px)]:mt-3.5 [@media(orientation:landscape)_and_(max-height:500px)]:gap-2 text-[14px]">
-            <RouteButton utama href="/Arief_Hidayat_CV.pdf">VIEW RESUME</RouteButton>
+            <RouteButton utama href="/documents/Arief_Hidayat_CV.pdf">VIEW RESUME</RouteButton>
             {/* <RouteButton onClick={() => scrollKeSection("about")}>DISCOVER PROFILE</RouteButton> */}
         </div>
     </div>

@@ -1,36 +1,58 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Arief Hidayat Portfolio
 
-## Getting Started
+Website Next.js dengan halaman Home, Skills, Story, dan Portfolio. HP menggunakan landscape; portrait menampilkan petunjuk putar layar.
 
-First, run the development server:
+## Menjalankan proyek
 
-```bash
+```sh
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm run build
+npm start
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Struktur folder
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- `app/`: route Next.js, layout, stylesheet global, dan manifest web app.
+- `app/components/home/`: hero video, loading, dan tombol resume.
+- `app/components/navigation/`: menu, tombol kembali, sound/settings/fullscreen.
+- `app/components/skills/`: komponen dan CSS Skills.
+- `app/components/story/`: latar Story, orbit surat, riwayat pendidikan, dan CSS.
+- `app/components/portfolio/`: galeri proyek dan detailnya.
+- `app/components/shared/`: pemutar video dan petunjuk rotasi layar.
+- `app/components/visuals/`: shader ThreeUI beserta sumber dan dokumentasinya.
+- `app/components/sections/`: komponen bagian tambahan/cadangan.
+- `app/lib/`: logika browser yang dapat diuji terpisah.
+- `public/documents/`: PDF resume yang diakses website.
+- `public/videos/`: MP4 dan poster yang diputar browser.
+- `public/images/`: gambar desain yang dipakai halaman.
+- `assets/documents/`: dokumen sumber.
+- `assets/videos/`: video sumber asli.
+- `assets/sequences/`: frame sumber untuk membuat ulang video; tidak lagi disajikan dari public.
+- `scripts/`: alat bantu konversi video dan capture proyek.
+- `tests/`: pengujian perilaku browser.
+- `docs/`: catatan implementasi.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+File konfigurasi Next.js, TypeScript, npm, dan ESLint tetap di root agar ditemukan oleh alat build. Folder `.next`, `node_modules`, dan `.tmp-video-tools` adalah keluaran/dependensi lokal.
 
-## Learn More
+## Video
 
-To learn more about Next.js, take a look at the following resources:
+Hero memutar satu MP4 berisi idle, waving, dan finger heart secara berurutan. Loading menggunakan MP4 tersendiri. Untuk membuat ulang dari frame sumber dengan FFmpeg:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```sh
+python scripts/build-animation-videos.py --ffmpeg path/to/ffmpeg
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Fullscreen dan iPhone
 
-## Deploy on Vercel
+Browser yang mendukungnya memakai Fullscreen API standar atau WebKit. Penolakan dan API yang tidak tersedia menampilkan penjelasan, bukan gagal diam-diam.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Safari iPhone yang tidak mendukung fullscreen seluruh halaman menampilkan langkah Bagikan > Tambah ke Layar Utama > Buka sebagai App. Manifest `standalone` dan metadata Apple memungkinkan peluncuran dari Layar Utama tanpa bilah Safari. Website tidak dapat memaksa browser memasang aplikasi atau menyembunyikan UI sistem. Mode landscape tetap berlaku.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Rujukan: https://support.apple.com/en-mide/guide/iphone/iphea86e5236/ios
+
+Uji logika fullscreen (Node.js 22.18+):
+
+```sh
+node --test tests/fullscreen.test.mjs
+```

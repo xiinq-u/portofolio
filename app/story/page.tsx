@@ -1,5 +1,5 @@
-import Navigasi from "../components/navigasi";
-import Story from "../components/story";
+import Navigasi from "../components/navigation/navigasi";
+import Story from "../components/story/Story";
 
 export default function StoryPage() {
   return (

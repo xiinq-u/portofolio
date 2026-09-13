@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 
-import Loading from "./hero_page/loading";
+import Loading from "./hero/loading";
 
 const DURASI_LOADING = 5_000;
 const KUNCI_LOADING_SESSION = "portfolio_intro_loaded";

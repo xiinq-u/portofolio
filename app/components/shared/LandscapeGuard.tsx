@@ -1,14 +1,6 @@
-"use client";
-
-import { useEffect, type ReactNode } from "react";
+import type { ReactNode } from "react";
 
 export default function LandscapeGuard({ children }: { children: ReactNode }) {
-  useEffect(() => {
-    // Detect the device after hydration; do not apply iPhone layouts to iPad/Mac.
-    document.documentElement.dataset.device = /iPhone/i.test(navigator.userAgent) ? "iphone" : "other";
-    return () => { delete document.documentElement.dataset.device; };
-  }, []);
-
   return (
     <>
       <div className="landscape-content">{children}</div>

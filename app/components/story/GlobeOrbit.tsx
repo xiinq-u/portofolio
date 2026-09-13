@@ -91,7 +91,7 @@ export default function GlobeOrbit() {
     };
     const key = (event: KeyboardEvent) => { if (event.key === "Escape" && selected !== null) { event.preventDefault(); close(); } };
     const resize = () => { measure(); envelopes.forEach((_, i) => { if (i !== selected) place(i); }); };
-    // The iPhone layout can change the orb size after device detection.
+    // Keep orbit positions aligned when the responsive scene changes size.
     const orbObserver = new ResizeObserver(resize);
     const orbElement = document.querySelector(".story-orb");
     if (orbElement) orbObserver.observe(orbElement);

@@ -1,10 +1,10 @@
 "use client";
 
-import IntroLoading from "./components/IntroLoading";
-import Navbar from "./components/navbar";
-import KontrolUtilitas from "./components/KontrolUtilitas";
-import FeaturedRoute from "./components/FeaturedRoute";
-import Hero from "./components/hero_page/hero";
+import IntroLoading from "./components/home/IntroLoading";
+import Navbar from "./components/navigation/navbar";
+import KontrolUtilitas from "./components/navigation/KontrolUtilitas";
+import FeaturedRoute from "./components/home/FeaturedRoute";
+import Hero from "./components/home/hero/hero";
 
 export default function Home() {
     return (

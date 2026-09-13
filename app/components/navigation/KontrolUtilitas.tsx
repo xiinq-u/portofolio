@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { hasFullscreen, togglePageFullscreen } from "../../lib/fullscreen";
 
 type MediaElement = HTMLAudioElement | HTMLVideoElement;
 
@@ -25,11 +26,19 @@ export default function KontrolUtilitas() {
     const [fullscreenAktif, setFullscreenAktif] = useState(false);
     const [volume, setVolume] = useState(0.7);
     const settingsRef = useRef<HTMLDivElement>(null);
+    const fullscreenDialogRef = useRef<HTMLDialogElement>(null);
+    const [fullscreenMessage, setFullscreenMessage] = useState("");
+    const [showInstallSteps, setShowInstallSteps] = useState(false);
 
     useEffect(() => {
-        const sinkronkanFullscreen = () => setFullscreenAktif(Boolean(document.fullscreenElement));
+        const sinkronkanFullscreen = () => setFullscreenAktif(hasFullscreen(document));
+        sinkronkanFullscreen();
         document.addEventListener("fullscreenchange", sinkronkanFullscreen);
-        return () => document.removeEventListener("fullscreenchange", sinkronkanFullscreen);
+        document.addEventListener("webkitfullscreenchange", sinkronkanFullscreen);
+        return () => {
+            document.removeEventListener("fullscreenchange", sinkronkanFullscreen);
+            document.removeEventListener("webkitfullscreenchange", sinkronkanFullscreen);
+        };
     }, []);
 
     useEffect(() => {
@@ -63,19 +72,50 @@ export default function KontrolUtilitas() {
     };
 
     const toggleFullscreen = async () => {
+        const iphone = /iPhone/i.test(navigator.userAgent);
+        const standalone = window.matchMedia("(display-mode: standalone)").matches
+            || Boolean((navigator as Navigator & { standalone?: boolean }).standalone);
+        const showHelp = (message: string, install = false) => {
+            setFullscreenMessage(message);
+            setShowInstallSteps(install);
+            fullscreenDialogRef.current?.showModal();
+        };
+        if (standalone && !hasFullscreen(document)) {
+            showHelp("Website sudah terbuka sebagai aplikasi tanpa bilah alamat browser. Untuk keluar, gunakan gestur Home di HP kamu.");
+            return;
+        }
         try {
-            if (document.fullscreenElement) {
-                await document.exitFullscreen();
-            } else {
-                await document.documentElement.requestFullscreen();
+            const result = await togglePageFullscreen(document);
+            if (result === "unsupported") {
+                showHelp(iphone
+                    ? "Safari iPhone tidak mendukung fullscreen seluruh halaman lewat tombol ini. Buka sebagai aplikasi dari Layar Utama untuk menghilangkan bilah Safari."
+                    : "Browser ini belum mendukung fullscreen halaman. Coba buka website langsung di Safari, Chrome, atau browser lain yang mendukungnya.", iphone);
             }
         } catch {
-            // Fullscreen can be rejected by browser or device policy.
+            showHelp(iphone
+                ? "Safari tidak mengizinkan fullscreen di tab ini. Kamu bisa membuka website dari Layar Utama tanpa bilah Safari."
+                : "Permintaan fullscreen ditolak browser. Coba lagi dari tab website langsung, bukan dari tampilan preview.", iphone);
         }
     };
 
     return (
         <div className="utility-controls fixed top-9 right-10 z-[60] [font-family:Arial,Helvetica,sans-serif] [@media(min-aspect-ratio:16/9)]:right-[max(40px,calc(50%-88.8889vh+16px))] [@media(orientation:landscape)_and_(max-height:500px)]:top-[14px] [@media(orientation:landscape)_and_(max-height:500px)]:right-[max(14px,calc(50%-88.8889vh+14px))] [@media(orientation:landscape)_and_(max-height:380px)]:top-[9px] [@media(orientation:landscape)_and_(max-height:380px)]:right-[max(9px,calc(50%-88.8889vh+9px))] [@media(orientation:landscape)_and_(max-height:380px)]:scale-90 [@media(orientation:landscape)_and_(max-height:380px)]:origin-top-right [@media(max-width:640px)_and_(orientation:portrait)]:top-4 [@media(max-width:640px)_and_(orientation:portrait)]:right-4" ref={settingsRef}>
+            <dialog ref={fullscreenDialogRef} aria-labelledby="fullscreen-help-title"
+                className="fixed inset-0 m-auto max-h-[85dvh] w-[min(420px,calc(100vw-32px))] overflow-y-auto rounded-2xl border border-sky-200/40 bg-slate-950 p-5 text-sm leading-relaxed text-sky-50 shadow-2xl backdrop:bg-black/75">
+                <h2 id="fullscreen-help-title" className="mb-3 text-lg font-semibold">Tampilan layar penuh</h2>
+                <p>{fullscreenMessage}</p>
+                {showInstallSteps && (
+                    <ol className="my-4 list-decimal space-y-2 pl-5">
+                        <li>Buka website ini di Safari, lalu ketuk Bagikan (Share).</li>
+                        <li>Pilih Tambah ke Layar Utama (Add to Home Screen).</li>
+                        <li>Aktifkan Buka sebagai App (Open as Web App) jika tersedia, lalu ketuk Tambah.</li>
+                        <li>Buka ikon dari Layar Utama dan putar HP ke landscape.</li>
+                    </ol>
+                )}
+                <form method="dialog" className="mt-4 flex justify-end">
+                    <button autoFocus className="min-h-11 rounded-lg bg-sky-100 px-5 font-semibold text-slate-950">Mengerti</button>
+                </form>
+            </dialog>
             <div className="flex items-center gap-3 [@media(orientation:landscape)_and_(max-height:500px)]:gap-2" aria-label="Kontrol halaman">
                 <div className={kelasItem}>
                     <button

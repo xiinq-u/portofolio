@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, type CSSProperties } from "react";
-import { GlobeCollection } from "./threeui/src/shaders/globe/GlobeCollection";
+import { GlobeCollection } from "../visuals/threeui/src/shaders/globe/GlobeCollection";
 import "./story.css";
 import GlobeOrbit from "./GlobeOrbit";
 

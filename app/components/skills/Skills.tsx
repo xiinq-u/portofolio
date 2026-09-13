@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, type CSSProperties } from "react";
-import Navigasi from "./navigasi";
+import Navigasi from "../navigation/navigasi";
 import "./skills.css";
 
 // Keep scenery movement close to the background; foreground particles move more.

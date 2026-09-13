@@ -1,5 +1,5 @@
-import Navigasi from "../components/navigasi";
-import Portfolio from "../components/Portfolio";
+import Navigasi from "../components/navigation/navigasi";
+import Portfolio from "../components/portfolio/Portfolio";
 
 export default function PortfolioPage() {
   return (

@@ -1,0 +1,617 @@
+/* ========================================================== */
+/* PANDUAN EDIT: Ctrl+F untuk TANGAN, KARAKTER, BACKGROUND, BUNGA, atau RESPONSIVE.
+   data-art = nomor awal nama file PNG di public/images/bahan_skills.
+   Kecepatan parallax ada di LAYERS (depth) pada skills.tsx.
+   Aturan @media dapat menimpa aturan umum pada ukuran layar tertentu.
+========================================================== */
+
+/* HALAMAN: tinggi minimum, warna dasar, dan batas tepi halaman. */
+.skills-page {
+  position: relative;
+  isolation: isolate;
+  min-height: 100dvh;
+  overflow: clip;
+  color: #fff;
+  background: #080d19;
+  height: 100dvh;
+  min-height: 0;
+}
+
+/* KARAKTER + TANGAN: frame bersama rasio 3:1. */
+.skills-scene {
+  position: absolute;
+  z-index: 1;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  aspect-ratio: 3 / 1;
+  transform: translateY(-50%);
+  overflow: visible;
+  pointer-events: none;
+}
+
+/* LAYER UMUM */
+.skills-art-layer {
+  position: absolute;
+  inset: -8px;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  transform: translate3d(0, 0, 0);
+  will-change: transform;
+}
+
+/* TOMBOL KEMBALI */
+.skills-back {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  z-index: 30;
+}
+
+/* AREA TEKS & KONTEN UTAMA: DIKUNCI DI TENGAH (CENTER) */
+.skills-content {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  align-items: center;
+  justify-items: center;
+  min-height: 0;
+  width: 100%;
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 24px clamp(20px, 5vw, 80px) 18px;
+  z-index: 25;
+}
+
+/* ========================================================== */
+/* JUDUL DI TENGAH                                            */
+/* ========================================================== */
+.skills-heading {
+  width: 100%;
+  max-width: 800px;
+  padding: 0 60px;
+  margin: 0 auto;
+  text-align: center;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+}
+
+.skills-heading .skills-eyebrow {
+  display: none;
+}
+
+/* Font Judul Utama (Keahlian) */
+.skills-heading h1 {
+  font-family:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    sans-serif;
+  margin: 4px 0;
+  font-size: clamp(26px, 3.5vw, 42px);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: #ffffff;
+  text-shadow:
+    0 4px 16px rgba(0, 0, 0, 0.95),
+    0 0 30px rgba(155, 220, 250, 0.5);
+}
+
+.skills-heading h1 span {
+  color: #f0e6f0;
+}
+
+.skills-heading > p:last-child {
+  display: none;
+}
+
+/* ========================================================== */
+/* BAGIAN CARD SKILL (KACA ABSTRAK DENGAN FONT JELAS & SHADOW) */
+/* ========================================================== */
+.skills-layout-split {
+  display: grid;
+  grid-template-columns: 1fr minmax(200px, 400px) 1fr;
+  align-items: center;
+  justify-items: center;
+  gap: clamp(16px, 3vw, 48px);
+  width: 100%;
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 0;
+  min-height: 0;
+}
+
+/* Panel Skill (Card Kaca) */
+.skills-panel {
+  --skill-accent: #9bdcfa; /* Biru Muda Kiri (Frontend) */
+
+  width: 100%;
+  min-width: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.12),
+    rgba(0, 15, 30, 0.55)
+  );
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+
+  border: 2px solid rgba(255, 255, 255, 0.45);
+  border-radius: 22px;
+
+  box-shadow:
+    0 16px 40px -10px rgba(0, 0, 0, 0.8),
+    0 0 20px rgba(155, 220, 250, 0.3),
+    inset 0 1px 2px rgba(255, 255, 255, 0.5);
+
+  padding: 28px;
+  position: relative;
+  overflow: hidden;
+}
+
+.skills-panel-left {
+  grid-column: 1;
+}
+
+/* Panel Kanan (Backend dengan Aksen Merah) */
+.skills-panel-right {
+  grid-column: 3;
+  --skill-accent: #ff6b6b;
+}
+
+.skills-panel::before {
+  content: "";
+  position: absolute;
+  top: -60%;
+  left: -60%;
+  width: 220%;
+  height: 220%;
+  background-image:
+    radial-gradient(
+      circle at 15% 25%,
+      rgba(155, 220, 250, 0.15) 0%,
+      transparent 45%
+    ),
+    radial-gradient(
+      circle at 85% 85%,
+      rgba(255, 255, 255, 0.08) 0%,
+      transparent 50%
+    ),
+    radial-gradient(circle at 50% 50%, rgba(0, 0, 0, 0.2) 0%, transparent 70%);
+  opacity: 0.8;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.skills-panel::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 20px;
+  right: 20px;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.9),
+    transparent
+  );
+  z-index: 1;
+}
+
+.skills-panel > .skills-eyebrow,
+.skills-panel h2,
+.skills-list {
+  position: relative;
+  z-index: 1;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.9);
+}
+
+/* EYEBROW CARD (01 / FRONTEND & 02 / BACKEND) DIUBAH JADI PUTIH + SHADOW */
+.skills-panel > .skills-eyebrow {
+  font-family: "Courier New", Courier, monospace;
+  font-size: 13px;
+  letter-spacing: 0.2em;
+  margin: 0 0 8px;
+  color: #ffffff; /* Warna Putih Bersih */
+  font-weight: 800;
+  text-transform: uppercase;
+  text-shadow:
+    0 2px 8px rgba(0, 0, 0, 0.95),
+    0 0 12px rgba(255, 255, 255, 0.4); /* Shadow Tajam */
+}
+
+/* Judul Utama Card Diberi Shadow Tajam */
+.skills-panel h2 {
+  font-size: clamp(18px, 1.9vw, 26px);
+  margin: 0 0 22px;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: -0.02em;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.95);
+}
+
+.skills-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: clamp(16px, 2.5dvh, 24px);
+}
+
+.skills-item-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+/* Nama Skill Diberi Shadow */
+.skills-item-heading h3 {
+  font-size: clamp(14px, 1.3vw, 17px);
+  margin: 0;
+  font-weight: 600;
+  color: #ffffff;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.9);
+}
+
+/* Angka Persentase Diberi Shadow */
+.skills-item-heading > span {
+  font-size: clamp(24px, 2.5vw, 34px);
+  color: var(--skill-accent);
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  font-weight: 800;
+  text-shadow:
+    0 2px 8px rgba(0, 0, 0, 0.95),
+    0 0 15px currentColor;
+}
+
+.skills-item-heading small {
+  font-size: 12px;
+  margin-left: 2px;
+  opacity: 0.95;
+  font-weight: 700;
+}
+
+/* Meter / Progress Bar */
+.skills-item meter {
+  display: block;
+  width: 100%;
+  height: 7px;
+  margin: 6px 0;
+  border: 0;
+  border-radius: 6px;
+  background: rgba(0, 0, 0, 0.55);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.7);
+  overflow: hidden;
+}
+
+.skills-item meter::-webkit-meter-bar {
+  height: 7px;
+  border: 0;
+  border-radius: 6px;
+  background: rgba(0, 0, 0, 0.55);
+}
+
+.skills-item meter::-webkit-meter-optimum-value {
+  background: linear-gradient(90deg, var(--skill-accent), #ffffff);
+  border-radius: 6px;
+}
+
+.skills-item meter::-moz-meter-bar {
+  background: linear-gradient(90deg, var(--skill-accent), #ffffff);
+  border-radius: 6px;
+}
+
+/* Deskripsi Skill */
+.skills-item > p {
+  margin: 4px 0 0;
+  font-size: 12px;
+  line-height: 1.4;
+  color: #f3f4f6;
+  font-weight: 400;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.9);
+}
+
+.skills-note,
+.skills-caption {
+  display: none;
+}
+
+/* ========================================================== */
+/* PENGATURAN POSISI LAYER & BUNGA                              */
+/* ========================================================== */
+.skills-art-layer[data-art="14"] {
+  top: 48px;
+  bottom: -30%;
+  left: -68px;
+  height: 115%;
+}
+
+.skills-art-layer[data-art="15"],
+.skills-art-layer[data-art="16"] {
+  opacity: 0.8;
+}
+.skills-art-layer[data-art="17"] {
+  opacity: 0.75;
+}
+.skills-art-layer[data-art="18"] {
+  opacity: 0.3;
+  mix-blend-mode: screen;
+}
+.skills-art-layer[data-art="19"] {
+  opacity: 0.35;
+  mix-blend-mode: screen;
+}
+.skills-art-layer[data-art="20"] {
+  opacity: 0.16;
+}
+
+.skills-art-layer[data-art="02"],
+.skills-art-layer[data-art="03"] {
+  opacity: 0.25;
+  mix-blend-mode: screen;
+}
+.skills-art-layer[data-art="05"] {
+  opacity: 0.85;
+}
+.skills-art-layer[data-art="08"],
+.skills-art-layer[data-art="09"],
+.skills-art-layer[data-art="10"],
+.skills-art-layer[data-art="11"] {
+  opacity: 0.9;
+}
+.skills-art-layer[data-art="12"] {
+  opacity: 0.65;
+}
+
+.skills-backdrop {
+  inset: -8px;
+  z-index: 0;
+  background-size: cover;
+  background-position: center;
+}
+
+.skills-flowers {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.skills-flowers .skills-art-layer {
+  inset: auto 0 8%;
+  width: 100%;
+  aspect-ratio: 3 / 1;
+  background-size: contain;
+}
+
+.skills-flowers [data-art="05"] {
+  top: -6%;
+  bottom: auto;
+  scale: -1 1;
+  left: -6%;
+}
+.skills-flowers [data-art="08"] {
+  bottom: 17%;
+  left: -60%;
+}
+.skills-flowers [data-art="09"] {
+  bottom: 13%;
+  left: 8%;
+}
+.skills-flowers [data-art="10"] {
+  bottom: -15%;
+  left: -2%;
+}
+.skills-flowers [data-art="11"] {
+  bottom: -15%;
+  left: 25%;
+}
+
+/* ========================================================== */
+/* RESPONSIVE MEDIA QUERIES                                   */
+/* ========================================================== */
+@media (min-width: 1024px) {
+  .skills-heading {
+    text-align: center;
+    padding: 0;
+    margin: 0 auto 16px;
+    max-width: 600px;
+  }
+  .skills-heading h1 {
+    font-size: clamp(24px, 2.4vw, 34px);
+  }
+  .skills-content {
+    padding-top: 40px;
+  }
+}
+
+@media (max-width: 1023px) {
+  .skills-scene {
+    top: 50%;
+    left: 50%;
+    width: max(100%, 520px);
+    transform: translate(-50%, -50%);
+  }
+  .skills-content {
+    padding: 20px 16px 12px;
+  }
+  .skills-layout-split {
+    grid-template-columns: minmax(0, 1fr) minmax(70px, 0.7fr) minmax(0, 1fr);
+    gap: 12px;
+  }
+  .skills-panel {
+    padding: 15px;
+  }
+  .skills-panel h2 {
+    font-size: 14px;
+    margin-bottom: 12px;
+  }
+  .skills-item-heading {
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+  .skills-item-heading h3 {
+    width: 100%;
+    font-size: 11px;
+  }
+  .skills-item-heading > span {
+    font-size: 21px;
+  }
+}
+
+@media (max-width: 599px) {
+  .skills-flowers .skills-art-layer {
+    width: 180%;
+  }
+  .skills-flowers [data-art="05"],
+  .skills-flowers [data-art="08"],
+  .skills-flowers [data-art="11"] {
+    left: auto;
+    right: 0;
+  }
+}
+
+@media (max-width: 599px), (max-height: 650px) {
+  .skills-list {
+    gap: 10px;
+  }
+}
+
+@media (max-height: 450px) {
+  .skills-content {
+    padding-block: 10px;
+  }
+  .skills-heading .skills-eyebrow {
+    display: none;
+  }
+  .skills-panel h2 {
+    margin-bottom: 6px;
+  }
+  .skills-list {
+    gap: 4px;
+  }
+  .skills-item-heading {
+    flex-wrap: nowrap;
+  }
+  .skills-item-heading h3 {
+    width: auto;
+  }
+  .skills-item-heading > span {
+    font-size: 16px;
+  }
+  .skills-item meter {
+    margin: 3px 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skills-art-layer {
+    transform: none !important;
+    will-change: auto;
+  }
+}
+@media (hover: none) and (pointer: coarse) and (orientation: landscape) and (max-height: 600px) {
+  .skills-content {
+    padding: 8px max(24px, env(safe-area-inset-right)) 6px
+      max(24px, env(safe-area-inset-left));
+    gap: 4px;
+  }
+  .skills-heading {
+    margin: 0;
+    padding: 0 60px;
+  }
+  .skills-heading h1 {
+    margin: 0;
+    font-size: 24px;
+  }
+  .skills-layout-split {
+    height: 100%;
+    min-height: 0;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr) minmax(0, 1fr);
+    gap: 12px;
+  }
+  .skills-panel {
+    width: 220px;
+    max-width: none;
+    max-height: none;
+    overflow: clip;
+    zoom: var(--skills-card-scale, 1);
+    padding: 10px;
+    border-width: 1px;
+    border-radius: 12px;
+  }
+  .skills-panel > .skills-eyebrow {
+    font-size: 8px;
+    margin-bottom: 3px;
+  }
+  .skills-panel h2 {
+    font-size: 12px;
+    margin-bottom: 6px;
+  }
+  .skills-item-heading {
+    flex-wrap: nowrap;
+  }
+  .skills-item-heading h3 {
+    width: auto;
+    font-size: 10px;
+  }
+  .skills-item-heading > span {
+    font-size: 15px;
+    flex-shrink: 0;
+  }
+  .skills-item-heading small {
+    font-size: 9px;
+  }
+  .skills-list {
+    gap: 6px;
+  }
+  .skills-item > p {
+    margin-top: 3px;
+    font-size: 10px;
+    line-height: 1.35;
+  }
+  .skills-item meter {
+    height: 5px;
+    margin: 3px 0;
+  }
+  .skills-item meter::-webkit-meter-bar {
+    height: 5px;
+  }
+  .skills-note {
+    margin-top: 8px;
+  }
+  .skills-caption {
+    margin: 0;
+    font-size: 10px;
+  }
+  .skills-back {
+    top: 8px;
+    left: max(12px, env(safe-area-inset-left));
+  }
+
+  /* Scale the original 3:1 composition and its offsets together on phones. */
+  .skills-scene {
+    top: 50%;
+    left: 50%;
+    width: min(100%, 250dvh);
+    transform: translate(-50%, -50%);
+  }
+  .skills-scene .skills-art-layer {
+    inset: -1.67% -0.56%;
+  }
+  .skills-scene .skills-art-layer[data-art="14"] {
+    top: 2.9%;
+    left: -4.72%;
+    right: -0.56%;
+    bottom: auto;
+    height: 132%;
+  }
+}

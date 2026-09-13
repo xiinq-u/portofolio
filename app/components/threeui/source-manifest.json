@@ -1,0 +1,50 @@
+[
+  {
+    "path": "src/shaders/globe/GlobeCollection.tsx",
+    "language": "tsx",
+    "role": "component",
+    "bytes": 6900,
+    "lines": 189,
+    "sha256": "e8db691277c236d1fe2adb53ba3e4a5f51aa697aa625e1bdf9b09adbf03af3b9"
+  },
+  {
+    "path": "src/shaders/energy-orb/EnergyOrb.tsx",
+    "language": "tsx",
+    "role": "variant-component",
+    "bytes": 9715,
+    "lines": 252,
+    "sha256": "be9ca83c7d158dd1366bd942aa4cc4c084b901d59156d047a601ebd9cca4a903"
+  },
+  {
+    "path": "src/shaders/energy-orb/energyOrbShaders.ts",
+    "language": "typescript",
+    "role": "variant-shader-source",
+    "bytes": 4787,
+    "lines": 106,
+    "sha256": "03b1b8e2c44042ac1e880003e55016a641329028205c62dcd17e535b99496aec"
+  },
+  {
+    "path": "src/shaders/globe/sources/tangled-constellations.html",
+    "language": "html",
+    "role": "variant-source",
+    "bytes": 20606,
+    "lines": 635,
+    "sha256": "3de7fdcb62399863ca942c6a502edeeb68b80bcfb8b9f60cd580b56bba94d009"
+  },
+  {
+    "path": "src/shaders/globe/sources/network-globe.html",
+    "language": "html",
+    "role": "variant-source",
+    "bytes": 28518,
+    "lines": 801,
+    "sha256": "7a88f26e4d8dfdc66c75eedb61d8e7136b747b5145c07edf1db9633dcd096405"
+  },
+  {
+    "path": "src/shaders/threeui.css",
+    "language": "css",
+    "role": "shared-style",
+    "bytes": 40715,
+    "lines": 1775,
+    "sha256": "efe4447139f1358dd8e9be68edf6fa46cbefbd1de423a4d6c439ca61d2c8eccf"
+  }
+]

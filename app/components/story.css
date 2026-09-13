@@ -1,0 +1,505 @@
+/* ThreeUI's authored host/canvas layout, scoped to this background. */
+.cosmic-story {
+  position: fixed;
+  inset: 0;
+  isolation: isolate;
+  width: 100%;
+  height: 100dvh;
+  overflow: hidden;
+  background: #020510;
+  pointer-events: none;
+}
+.cosmic-sky {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+.story-orb {
+  --requested-diameter: clamp(650px, 54vw, 900px);
+  /* A sphere cannot be wider than the sky is tall and also touch both anchors. */
+  --diameter: min(var(--requested-diameter), 80dvh);
+  position: absolute;
+  left: 50%;
+  /* The authored shader radius is .31 of the smaller canvas dimension. */
+  width: calc(var(--diameter) / 0.62);
+  height: calc(var(--diameter) / 0.62);
+  /* Horizon intersects the sphere at 70% of its visible diameter. */
+  top: calc(62% - var(--diameter) * 0.7 - var(--diameter) * 0.19 / 0.62);
+  /* Rendering stays active; the canvas composite displays the exact same frame. */
+  opacity: 0;
+  transform: translateX(-50%);
+  z-index: 2;
+  pointer-events: none;
+}
+.story-orb .threeui-background {
+  position: relative;
+  isolation: isolate;
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+  background: transparent !important;
+}
+.story-orb .threeui-background > canvas {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.cosmic-water {
+  position: absolute;
+  inset: 62% 0 0;
+  z-index: 4;
+  overflow: hidden;
+  background: linear-gradient(#020813, #01030a);
+}
+.cosmic-reflection-fade {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: var(--reflection-depth, 12dvh);
+  mask-image: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.95) 0%,
+    rgba(0, 0, 0, 0.8) 45%,
+    transparent 100%
+  );
+}
+.cosmic-reflection {
+  position: absolute;
+  left: 0;
+  top: 100%;
+  width: 100%;
+  height: 100%;
+  transform: scaleY(-1);
+  transform-origin: center top;
+  opacity: 0.5;
+  filter: blur(1.6px) brightness(0.85) saturate(1.05);
+  pointer-events: none;
+}
+.cosmic-water-highlight {
+  position: absolute;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #a5e9ff, transparent);
+}
+.cosmic-horizon {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 62%;
+  z-index: 5;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(103, 232, 249, 0.65),
+    #e0faff,
+    rgba(103, 232, 249, 0.65),
+    transparent
+  );
+  box-shadow:
+    0 0 12px rgba(34, 211, 238, 0.9),
+    0 0 40px rgba(14, 165, 233, 0.45);
+}
+.cosmic-readability {
+  position: absolute;
+  inset: 0;
+  z-index: 6;
+  background: radial-gradient(
+    ellipse at 50% 44%,
+    rgba(0, 3, 12, 0.16),
+    transparent 65%
+  );
+}
+
+/* ========================================================== */
+/* RESPONSIVE TABLET / HANDPHONE: MAX-WIDTH 1023px             */
+/* ========================================================== */
+@media (max-width: 1023px) {
+  .story-orb {
+    --requested-diameter: 68vw;
+  }
+}
+
+/* ========================================================== */
+/* RESPONSIVE HANDPHONE (PORTRAIT): MAX-WIDTH 639px           */
+/* ========================================================== */
+@media (max-width: 639px) {
+  .story-orb {
+    --requested-diameter: 110vw;
+  }
+}
+
+/* Specular crests retain more light than the diffuse reflection beneath them. */
+.cosmic-ripple-glints {
+  opacity: 0.65;
+  filter: blur(1.8px);
+  mix-blend-mode: screen;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .story-education .animate-pulse,
+  .story-education .animate-ping,
+  .story-education .animate-spin {
+    animation: none;
+  }
+}
+
+/* .cosmic-rocks { position: absolute; inset: auto 0 0; height: clamp(90px, 20vw, 240px); z-index: 7; background: url('/images/planet/batu.png') center bottom / 100% auto no-repeat; pointer-events: none; } */
+.globe-orbit {
+  position: relative;
+  min-height: 100dvh;
+  z-index: 12;
+  pointer-events: none;
+  perspective: 1200px;
+}
+.orbit-card {
+  position: absolute;
+  inset: 0;
+  overflow: auto;
+  pointer-events: auto;
+  transform-origin: center;
+  will-change: transform;
+}
+.orbit-card[inert] {
+  pointer-events: none;
+}
+/* PNG paper objects; GSAP controls the button's orbit transform. */
+.orbit-envelope {
+  visibility: hidden;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: clamp(110px, 10vw, 155px);
+  aspect-ratio: 3 / 2;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  pointer-events: auto;
+  will-change: transform;
+}
+.orbit-envelope::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--paper-image) center / contain no-repeat;
+  transition:
+    transform 250ms ease,
+    filter 250ms ease;
+}
+.orbit-envelope.env-origami-bird {
+  --paper-image: url("/images/bahan-bahan/origami_burung.png");
+}
+.orbit-envelope.env-paper-plane {
+  --paper-image: url("/images/bahan-bahan/pesawat_kertas.png");
+}
+.orbit-envelope.env-rose-envelope {
+  --paper-image: url("/images/bahan-bahan/surat.png");
+}
+.orbit-envelope:is(:hover, :focus-visible)::before {
+  transform: translateY(-4px) scale(1.06);
+  filter: drop-shadow(0 0 8px #93c5fd66);
+}
+.orbit-envelope span {
+  position: absolute;
+  top: calc(100% + 5px);
+  left: 50%;
+  transform: translateX(-50%);
+  width: max-content;
+  max-width: 140px;
+  padding: 3px 7px;
+  border: 1px solid #93c5fd40;
+  border-radius: 4px;
+  background: #0009;
+  color: white;
+  font: 600 8px/1.4 sans-serif;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-align: center;
+}
+@media (prefers-reduced-motion: reduce) {
+  .orbit-envelope::before {
+    transition: none;
+  }
+  .orbit-envelope:is(:hover, :focus-visible)::before {
+    transform: none;
+  }
+}
+
+.orbit-envelope:focus-visible,
+.orbit-close:focus-visible {
+  outline: 2px solid white;
+  outline-offset: 5px;
+}
+.orbit-close {
+  position: fixed;
+  right: 20px;
+  top: 20px;
+  z-index: 2;
+  padding: 10px;
+  border: 1px solid #93c5fd88;
+  border-radius: 50%;
+  color: white;
+  background: #000c;
+  cursor: pointer;
+  pointer-events: auto;
+}
+.globe-orbit[data-phase="orbiting"] .orbit-card {
+  pointer-events: none;
+}
+
+.globe-orbit[data-phase="orbiting"] .orbit-card {
+  visibility: hidden;
+}
+.orbit-envelope:disabled {
+  cursor: default;
+}
+
+/* Decorative viewport frame, below the interactive Story cards. */
+.story-frame {
+  position: absolute;
+  inset: 0;
+  z-index: 8;
+  pointer-events: none;
+}
+.story-frame-piece {
+  position: absolute;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+.story-frame-bottom {
+  position: absolute;
+  inset: auto 0 0;
+  height: min(36vw, 38dvh);
+  /* Let the paper tips extend above the water; the viewport clips outer edges. */
+  overflow: visible;
+  pointer-events: none;
+}
+.story-frame-paper {
+  position: absolute;
+  bottom: -1.5vw;
+  width: 36%;
+  aspect-ratio: 1;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center bottom;
+}
+.story-frame-paper-left {
+  left: -3.9%;
+  bottom: -13%;
+  z-index: 1;
+  background-image: url("/images/bahan-bahan/bawah-kertas-kiri.png");
+}
+.story-frame-paper-center {
+  left: 32%;
+  bottom: -13%;
+  background-image: url("/images/bahan-bahan/bawah-kertas-tengah.png");
+}
+.story-frame-paper-right {
+  right: -3.9%;
+  bottom: -13%;
+  z-index: 1;
+  background-image: url("/images/bahan-bahan/bawah-kertas-kanan.png");
+}
+
+/* ========================================================== */
+/* RESPONSIVE HANDPHONE (FRAME BAWAH): MAX-WIDTH 639px        */
+/* ========================================================== */
+@media (max-width: 639px) {
+  .story-frame-bottom {
+    height: min(44vw, 24dvh);
+  }
+  .story-frame-paper {
+    width: 40%;
+    bottom: -1.8vw;
+  }
+  .story-frame-paper-center {
+    left: 30%;
+  }
+}
+.story-frame-left,
+.story-frame-right {
+  top: 0;
+  width: clamp(110px, 24vw, 360px);
+  max-height: 40dvh;
+}
+.story-frame-left {
+  left: -18px;
+  aspect-ratio: 1312 / 1199;
+  background-image: url("/images/bahan-bahan/pojok_kiri.png");
+  background-position: left top;
+  top: -2%;
+}
+.story-frame-right {
+  aspect-ratio: 1433 / 1098;
+  background-image: url("/images/bahan-bahan/pojok_kanan.png");
+  background-position: right top;
+  top: -2%;
+  right: -14;
+}
+
+/* The parallax stage shares a horizon at 62% with the authored floor artwork. */
+.story-parallax {
+  --parallax-x: 0px;
+  --parallax-y: 0px;
+}
+.story-parallax-layer {
+  position: absolute;
+  inset: -12px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  pointer-events: none;
+  transform: translate3d(
+    calc(var(--parallax-x) * var(--depth)),
+    calc(var(--parallax-y) * var(--depth)),
+    0
+  );
+}
+.story-parallax-sky {
+  z-index: 0;
+  background-size: cover;
+}
+.story-parallax-stars {
+  z-index: 1;
+  opacity: 0.45;
+}
+.story-parallax .story-orb {
+  opacity: 1;
+  z-index: 2;
+  /* Keep the complete globe above the floor and centered in its orbit rings. */
+  top: calc(60% - var(--diameter) - var(--diameter) * 0.19 / 0.62);
+}
+.story-parallax-rings {
+  z-index: 3;
+  left: 50%;
+  top: 9%;
+  bottom: auto;
+  right: auto;
+  width: min(88vw, 110dvh);
+  height: 66%;
+  opacity: 0.55;
+  transform: translate3d(
+    calc(-50% + var(--parallax-x) * var(--depth)),
+    calc(var(--parallax-y) * var(--depth)),
+    0
+  );
+}
+.story-parallax-mountains {
+  z-index: 3;
+}
+.story-parallax-floor {
+  z-index: 4;
+}
+.story-floor-glow {
+  position: absolute;
+  z-index: 5;
+  left: 50%;
+  top: 65%;
+  width: min(60vw, 650px);
+  height: 21%;
+  transform: translateX(-50%);
+  background: radial-gradient(
+    ellipse,
+    #a5b4fc30,
+    #818cf815 40%,
+    transparent 70%
+  );
+  pointer-events: none;
+}
+/* Both pillar bases meet the rear steps at about 63% viewport height.
+   Their PNGs have different transparent padding below the base. */
+.story-parallax-pillars-left,
+.story-parallax-pillars-right {
+  z-index: 4;
+  top: -1%;
+  bottom: auto;
+  width: 82%;
+}
+.story-parallax-pillars-left {
+  left: -1%;
+  right: auto;
+  height: 82%;
+}
+.story-parallax-pillars-right {
+  left: auto;
+  right: -5%;
+  height: 82%;
+  top: -12%;
+}
+.story-parallax-ornaments {
+  z-index: 7;
+  top: -9%;
+  bottom: auto;
+  left: 8%;
+  right: auto;
+  width: 70%;
+  height: 80%;
+}
+.story-parallax .cosmic-readability {
+  z-index: 7;
+  background: radial-gradient(ellipse at 50% 45%, #02051038, transparent 65%);
+}
+
+/* ========================================================== */
+/* RESPONSIVE HANDPHONE (PARALLAX ELEMEN): MAX-WIDTH 639px    */
+/* ========================================================== */
+@media (max-width: 639px) {
+  .story-parallax-rings {
+    width: 115vw;
+  }
+  .story-parallax-pillars-left,
+  .story-parallax-pillars-right {
+    width: 70%;
+  }
+  .story-parallax-ornaments {
+    left: 4%;
+    width: 92%;
+    height: 44%;
+    opacity: 0.7;
+  }
+  .story-floor-glow {
+    width: 85vw;
+  }
+}
+
+/* ========================================================== */
+/* RESPONSIVE HANDPHONE (LANDSCAPE / MENDATAR): MAX-HEIGHT 600px */
+/* ========================================================== */
+@media (hover: none) and (pointer: coarse) and (orientation: landscape) and (max-height: 600px) {
+  .story-education {
+    height: 100dvh;
+    min-height: 0;
+    padding: 48px max(54px, env(safe-area-inset-right)) 10px
+      max(54px, env(safe-area-inset-left));
+  }
+  .story-education > .story-education-panel {
+    width: 1024px;
+    max-width: none;
+    flex-shrink: 0;
+    height: auto;
+    min-height: 0;
+    zoom: var(--story-panel-scale, 1);
+    padding: 16px 20px;
+    border-radius: 18px;
+    transition: none;
+  }
+  .story-education > div > div.relative.overflow-y-auto {
+    flex: none;
+    min-height: 0;
+    overflow: visible;
+  }
+  .orbit-close {
+    top: 10px;
+    right: max(12px, env(safe-area-inset-right));
+  }
+  .orbit-envelope {
+    width: clamp(80px, 12vw, 110px);
+  }
+}

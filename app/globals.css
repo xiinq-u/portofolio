@@ -1,5 +1,8 @@
 @import "tailwindcss";
 
+@source "./components/story.tsx";
+@source "./components/StoryEducation.tsx";
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
@@ -23,4 +26,93 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Blend the authored orb into the story without its rectangular host fill. */
+.story-orb .energy-orb {
+  background: transparent !important;
+}
+/* Shared orientation gate: hidden content cannot receive touch or keyboard focus. */
+.landscape-guard { display: none; }
+.landscape-content { min-height: 100%; }
+@media (hover: none) and (pointer: coarse) and (orientation: portrait) {
+  body { overflow: hidden; }
+  .landscape-content { display: none; }
+  .landscape-guard {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    padding: 32px;
+    background: radial-gradient(ellipse at center, #083344, #020617 75%);
+    color: #cffafe;
+    text-align: center;
+  }
+  .landscape-guard h2 { font-size: 24px; font-weight: 600; }
+  .landscape-guard p { max-width: 320px; font-size: 14px; line-height: 1.7; }
+  .landscape-guard small { max-width: 300px; color: #94a3b8; line-height: 1.6; }
+}
+
+/* Only compact touch screens use these rules; desktop dimensions stay authored. */
+@media (hover: none) and (pointer: coarse) and (orientation: landscape) and (max-height: 600px) {
+  .portfolio-page {
+    height: 100dvh;
+    min-height: 0;
+    padding: 8px max(12px, env(safe-area-inset-right)) 4px max(12px, env(safe-area-inset-left));
+  }
+  .portfolio-content > header { padding: 0; }
+  .portfolio-content > header h2 { font-size: 28px; }
+  .portfolio-grid {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr) minmax(0, 1fr);
+    grid-template-rows: minmax(0, 1fr);
+    flex: 1;
+    min-height: 0;
+    height: auto;
+    gap: 12px;
+    margin: 6px 0 0;
+  }
+  .portfolio-grid > :first-child,
+  .portfolio-grid > :last-child {
+    min-width: 0;
+    max-height: 100%;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    justify-content: flex-start;
+    padding: 8px 4px;
+    scrollbar-width: thin;
+  }
+  .portfolio-grid > :first-child { gap: 8px; }
+  .portfolio-grid > :last-child { gap: 12px; }
+  .portfolio-grid > :first-child > *,
+  .portfolio-grid > :last-child > * { margin-block: 0; }
+  .portfolio-grid h3 { font-size: clamp(20px, 3vw, 30px); }
+  .portfolio-grid p { overflow-wrap: anywhere; }
+  .portfolio-grid > :first-child > p { font-size: 11px; line-height: 1.5; }
+  .portfolio-grid > :first-child > div:last-child { gap: 4px; }
+  .portfolio-grid > :first-child > div:last-child > span { padding: 4px 6px; font-size: 9px; }
+  .portfolio-grid > :last-child > div:last-child { flex-wrap: wrap; gap: 8px; }
+  .portfolio-grid > :last-child a,
+  .portfolio-grid > :last-child button { padding: 10px 12px; font-size: 10px; }
+  .portfolio-cards {
+    --card-left-offset: -45px;
+    --card-right-offset: 45px;
+    height: 100%;
+    min-height: 0;
+    max-height: 100%;
+  }
+  .portfolio-cards > div { padding: 8px 8px 16px; }
+  .portfolio-cards > div > div:last-child { padding-top: 4px; }
+  .portfolio-cards > div > div:last-child > span { font-size: 8px; }
+  .portfolio-content > div:last-child { padding-block: 4px 0; gap: 12px; }
+}
+
+@media (hover: none) and (pointer: coarse) and (orientation: landscape) and (max-height: 600px) {
+  .landscape-back { top: 6px; left: max(10px, env(safe-area-inset-left)); }
+  .landscape-back .back-btn,
+  .skills-back .back-btn { width: 40px; height: 40px; border-radius: 12px; }
+  .portfolio-cards { overflow: clip; }
 }

@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080" fill="none">
+  <defs>
+    <linearGradient id="horizon" x1="0" y1="0" x2="1920" y2="0" gradientUnits="userSpaceOnUse"><stop stop-color="#38BDF8" stop-opacity="0"/><stop offset=".22" stop-color="#67E8F9" stop-opacity=".45"/><stop offset=".5" stop-color="#E6FCFF"/><stop offset=".78" stop-color="#67E8F9" stop-opacity=".45"/><stop offset="1" stop-color="#38BDF8" stop-opacity="0"/></linearGradient>
+    <linearGradient id="beam" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#A5F3FC" stop-opacity="0"/><stop offset="1" stop-color="#67E8F9" stop-opacity=".52"/></linearGradient>
+    <filter id="blur16" x="-20%" y="-40%" width="140%" height="180%"><feGaussianBlur stdDeviation="16"/></filter>
+    <filter id="glow" x="-20%" y="-400%" width="140%" height="900%"><feGaussianBlur stdDeviation="9" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  </defs>
+  <path d="M0 690H1920" stroke="url(#horizon)" stroke-width="1" filter="url(#glow)"/>
+  <g filter="url(#blur16)">
+    <path d="M350 130L425 690H284L350 130Z" fill="url(#beam)" opacity=".18"/>
+    <path d="M612 245L654 688H572L612 245Z" fill="url(#beam)" opacity=".2"/>
+    <path d="M930 172L978 686H875L930 172Z" fill="url(#beam)" opacity=".18"/>
+    <path d="M1260 230L1325 690H1190L1260 230Z" fill="url(#beam)" opacity=".2"/>
+    <path d="M1580 98L1662 693H1491L1580 98Z" fill="url(#beam)" opacity=".22"/>
+  </g>
+</svg>

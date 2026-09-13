@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080" fill="none">
+  <defs>
+    <linearGradient id="rim" x1="430" y1="210" x2="1375" y2="695" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#A9E9FF" stop-opacity=".18"/>
+      <stop offset=".48" stop-color="#7DD9FF" stop-opacity=".42"/>
+      <stop offset=".78" stop-color="#E8FBFF" stop-opacity=".96"/>
+      <stop offset="1" stop-color="#42BFF5" stop-opacity=".28"/>
+    </linearGradient>
+    <radialGradient id="inner" cx="0" cy="0" r="1" gradientTransform="translate(1050 345) rotate(132) scale(660)">
+      <stop stop-color="#8DDFFF" stop-opacity=".09"/>
+      <stop offset=".63" stop-color="#1B79C5" stop-opacity=".035"/>
+      <stop offset="1" stop-color="#071C48" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="softGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="18" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="fineGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="5" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <clipPath id="disc"><circle cx="960" cy="620" r="560"/></clipPath>
+  </defs>
+  <circle cx="960" cy="620" r="560" fill="url(#inner)"/>
+  <circle cx="960" cy="620" r="561" stroke="#48C7FF" stroke-opacity=".22" stroke-width="18" filter="url(#softGlow)"/>
+  <circle cx="960" cy="620" r="560" stroke="url(#rim)" stroke-width="5" filter="url(#fineGlow)"/>
+  <path d="M560 224C719 51 995 4 1212 112C1309 160 1387 236 1438 326" stroke="#D7F7FF" stroke-opacity=".36" stroke-width="2.5" stroke-linecap="round" filter="url(#fineGlow)"/>
+  <path d="M1260 136C1372 209 1447 326 1486 456" stroke="#F2FDFF" stroke-opacity=".88" stroke-width="4" stroke-linecap="round" filter="url(#softGlow)"/>
+  <g clip-path="url(#disc)" opacity=".18">
+    <path d="M1070 166C1188 242 1268 321 1302 409C1339 506 1315 598 1237 681" stroke="#8EDFFF" stroke-width="2"/>
+    <path d="M1118 198C1190 271 1237 352 1249 439C1260 523 1231 595 1161 667" stroke="#68CFFF" stroke-width="1.5"/>
+    <path d="M628 477C753 432 861 434 954 486" stroke="#4EBEF5" stroke-opacity=".55" stroke-width="1.5"/>
+  </g>
+</svg>
